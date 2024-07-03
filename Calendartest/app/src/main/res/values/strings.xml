@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Calendartest</string>
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="forward"><![CDATA[->]]></string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet</string>
+
+    <!-- 添加其他需要的字符串資源 -->
+
+
+</resources>

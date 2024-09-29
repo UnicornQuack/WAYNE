@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_love"
+            android:icon="@drawable/love"
+            android:title="@string/menu_love" />
+        <item
+            android:id="@+id/nav_play"
+            android:icon="@drawable/play"
+            android:title="@string/menu_play" />
+        <item
+            android:id="@+id/nav_sports"
+            android:icon="@drawable/sports"
+            android:title="@string/menu_sports" />
+        <item
+            android:id="@+id/nav_traffic"
+            android:icon="@drawable/traffic"
+            android:title="@string/menu_traffic" />
+        <item
+            android:id="@+id/nav_travel"
+            android:icon="@drawable/travel"
+            android:title="@string/menu_travel" />
+        <item
+            android:id="@+id/nav_food"
+            android:icon="@drawable/food"
+            android:title="@string/menu_food" />
+        <item
+            android:id="@+id/nav_pet"
+            android:icon="@drawable/pet"
+            android:title="@string/menu_pet" />
+        <item
+            android:id="@+id/nav_study"
+            android:icon="@drawable/study"
+            android:title="@string/menu_study" />
+    </group>
+</menu>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 顯示好友名字 -->
+    <TextView
+        android:id="@+id/user_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="好友名稱"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- 傳送訊息按鈕 -->
+    <Button
+        android:id="@+id/send_message_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="緊急求救" />
+
+    <!-- 傳送罐頭訊息按鈕 -->
+    <Button
+        android:id="@+id/canned_message_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="我迷路了" />
+
+    <Button
+        android:id="@+id/road_message_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="我愛你" />
+
+</LinearLayout>

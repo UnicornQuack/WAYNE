@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Application</string>
+    <string name="introTitle">Welcome to<font color='#3f95ec'>\n N Club</font> with us</string>
+    <string name="subIntro">測試中</string>
+</resources>

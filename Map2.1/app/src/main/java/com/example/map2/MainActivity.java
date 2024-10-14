@@ -7,6 +7,10 @@ import androidx.core.app.ActivityCompat;
 
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -62,30 +66,55 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void initFriends() {
-        //test
         friends.add(new Friend("chaewon", 25.033964, 121.564468, R.drawable.chaewon));  // 台北
-        friends.add(new Friend("kazuha", 23.627278, 120.301435, R.drawable.kazuha));  // 高雄
-        friends.add(new Friend("sakura", 24.147736, 120.673648, R.drawable.sakura));  // 台中
+        friends.add(new Friend("kazuha", 24.99087, 121.54172, R.drawable.kazuha));  // 景美
+        friends.add(new Friend("sakura", 25.01392, 121.53476, R.drawable.sakura));  // 公館
+    }
+
+    private boolean hasLocationPermission() {
+        return ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
     }
 
     private void getLastLocation() {
+        if (!hasLocationPermission()) {
+            requestLocationPermission();
+            return;
+        }
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if (location != null) {
-                    currentLocation = location;
-
-                    // 當位置獲取成功，初始化地圖
-                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                    mapFragment.getMapAsync(MainActivity.this);
+                if (location == null) {
+                    Toast.makeText(MainActivity.this, "無法獲取位置，請確保定位服務已開啟", Toast.LENGTH_LONG).show();
+                    return;
                 }
+                currentLocation = location;
+                initMap();
             }
         });
+    }
+
+    private void initMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        } else {
+            Toast.makeText(this, "無法初始化地圖", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -108,15 +137,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .asBitmap()
                     .load(friend.iconResId)
                     .transform(new CircleCrop())  // 圓形裁剪
-                    .override(150, 150)  // 設置圖片大小為 100x100 像素
+                    .override(150, 150)  // 設置圖片大小
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @NonNull Transition<? super Bitmap> transition) {
-                            // 當圖片準備好後，將其設置為地圖標記
+                            // 創建一個 Bitmap 來應用外框和背景
+                            int width = 150;
+                            int height = 150;
+                            Bitmap finalBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                            Canvas canvas = new Canvas(finalBitmap);
+
+                            // 創建 Paint 來繪製背景
+                            Paint paint = new Paint();
+                            paint.setAntiAlias(true);
+
+                            // 設置背景顏色
+                            paint.setColor(Color.parseColor("#FFDDDDDD"));
+                            canvas.drawRoundRect(new RectF(0, 0, width, height), 50, 50, paint);
+
+                            // 繪製外框
+//                            paint.setColor(Color.BLACK);
+//                            paint.setStyle(Paint.Style.STROKE);
+//                            paint.setStrokeWidth(8);
+//                            canvas.drawRoundRect(new RectF(0, 0, width, height), 50, 50, paint);
+
+                            // 繪製好友的圖標到背景上
+                            canvas.drawBitmap(resource, (width - resource.getWidth()) / 2, (height - resource.getHeight()) / 2, null);
+
+                            // 將自定義圖標應用到地圖標記
                             myMap.addMarker(new MarkerOptions()
                                     .position(friendLocation)
                                     .title(friend.name)
-                                    .icon(BitmapDescriptorFactory.fromBitmap(resource)));  // 設置自定義圖標
+                                    .icon(BitmapDescriptorFactory.fromBitmap(finalBitmap)));  // 設置自定義圖標
 
                             // 包括好友位置
                             builder.include(friendLocation);
@@ -124,15 +176,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         @Override
                         public void onLoadCleared(@Nullable Drawable placeholder) {
-                            // 可以處理 Glide 加載時的佔位圖
+                            // 處理圖片加載清除或佔位圖邏輯
+                        }
+
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                            Toast.makeText(MainActivity.this, "圖標加載失敗", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
 
-        // 自動調整地圖視角以顯示所有標記0000
+        // 自動調整地圖視角以顯示所有標記
         LatLngBounds bounds = builder.build();
-        myMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+        if (friends.size() > 1) {
+            myMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+        } else {
+            myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));  // 顯示用戶位置
+        }
 
+        // 點擊標記時彈出底部對話框
         myMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
@@ -153,8 +215,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
-    private void showBottomDialog(String friendName)
-    {
+
+    private void showBottomDialog(String friendName) {
         // 創建 BottomSheetDialog
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
 
@@ -168,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         TextView userName = bottomSheetView.findViewById(R.id.user_name_text_view);
         userName.setText(friendName);  // 根據點擊的標記設置名字
 
-        // 設置對話框中的其他元素，例如發送訊息按鈕、罐頭訊息按鈕等
+        // 設置對話框中的元素
         Button sendMessageButton = bottomSheetView.findViewById(R.id.send_message_button);
         Button cannedMessageButton = bottomSheetView.findViewById(R.id.canned_message_button);
         Button roadMessageButton = bottomSheetView.findViewById(R.id.road_message_button);
@@ -177,48 +239,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 在這裡實現發送訊息的功能
                 Toast.makeText(MainActivity.this, "發送訊息給 " + friendName, Toast.LENGTH_SHORT).show();
-                bottomSheetDialog.dismiss();  // 關閉對話框
+                bottomSheetDialog.dismiss();
             }
         });
 
-        // 罐頭訊息按鈕點擊事件
+        // 預設訊息按鈕點擊事件
         cannedMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 在這裡實現發送罐頭訊息的功能
-                Toast.makeText(MainActivity.this, "發送訊息給 " + friendName, Toast.LENGTH_SHORT).show();
-                bottomSheetDialog.dismiss();  // 關閉對話框
+                Toast.makeText(MainActivity.this, "發送預設訊息給 " + friendName, Toast.LENGTH_SHORT).show();
+                bottomSheetDialog.dismiss();
             }
         });
 
+        // 導航按鈕點擊事件
         roadMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 在這裡實現發送罐頭訊息的功能
-                Toast.makeText(MainActivity.this, "發送訊息給 " + friendName, Toast.LENGTH_SHORT).show();
-                bottomSheetDialog.dismiss();  // 關閉對話框
+                Toast.makeText(MainActivity.this, "導航至 " + friendName + " 的位置", Toast.LENGTH_SHORT).show();
+                bottomSheetDialog.dismiss();
             }
         });
 
         // 顯示對話框
         bottomSheetDialog.show();
     }
-
-    // 好友類，用於存儲好友的位置信息
-    class Friend {
-        String name;
-        double latitude;
-        double longitude;
-        int iconResId;  // 圖標資源 ID
-
-        public Friend(String name, double latitude, double longitude, int iconResId) {
-            this.name = name;
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.iconResId = iconResId;
-        }
-    }
-
 }

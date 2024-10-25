@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ChatApp</string>
+    <string name="userName">用戶名稱</string>
+    <string name="register">註冊</string>
+    <string name="email">電子信箱</string>
+    <string name="phoneNumber">電話號碼</string>
+    <string name="password">密碼</string>
+    <string name="authPassword">再次輸入密碼</string>
+    <string name="login">登入</string>
+</resources>

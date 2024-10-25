@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/et_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="群組名稱"
+        android:padding="10dp"
+        android:background="@drawable/rounded_edittext_profile" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:background="@drawable/rounded_border_profile"/>
+
+    <Button
+        android:id="@+id/btn_create_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="創建群組"
+        android:background="@color/purple_500"
+        android:textColor="@android:color/white"
+        android:padding="15dp"
+        android:layout_marginTop="20dp" />
+</LinearLayout>

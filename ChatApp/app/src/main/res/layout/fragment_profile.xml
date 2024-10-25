@@ -1,0 +1,161 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 用戶信息框框 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="@drawable/rounded_border_profile"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/profile_username_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用戶名稱"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/profile_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="用戶名稱"
+                android:padding="10dp"
+                android:background="@drawable/rounded_edittext_profile" />
+
+            <TextView
+                android:id="@+id/profile_email_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="電子郵件"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/profile_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="電子郵件"
+                android:padding="10dp"
+                android:background="@drawable/rounded_edittext_profile" />
+
+            <TextView
+                android:id="@+id/profile_phone_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="電話號碼"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/profile_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="電話號碼"
+                android:padding="10dp"
+                android:background="@drawable/rounded_edittext_profile" />
+
+            <TextView
+                android:id="@+id/profile_ID_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="使用者ID"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/profile_ID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="使用者ID"
+                android:padding="10dp"
+                android:background="@drawable/rounded_edittext_profile" />
+
+            <Button
+                android:id="@+id/profile_save_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="保存"
+                android:background="@color/purple_500"
+                android:textColor="@android:color/white"
+                android:padding="15dp"
+                android:layout_marginTop="20dp" />
+        </LinearLayout>
+
+        <!-- 添加好友和顯示好友列表的框框 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="@drawable/rounded_border_profile"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/add_friend_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加好友"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/friend_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="好友的電子郵件"
+                android:padding="10dp"
+                android:background="@drawable/rounded_edittext_profile" />
+
+            <Button
+                android:id="@+id/add_friend_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="添加好友"
+                android:background="@color/purple_500"
+                android:textColor="@android:color/white"
+                android:padding="15dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/friend_list_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="好友列表"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/friend_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scrollbars="vertical"
+                android:padding="10dp" />
+
+        </LinearLayout>
+
+        <!-- 登出按鈕 -->
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登出"
+            android:background="@color/red"
+            android:textColor="@android:color/white"
+            android:padding="15dp"
+            android:layout_marginTop="20dp" />
+
+    </LinearLayout>
+</ScrollView>

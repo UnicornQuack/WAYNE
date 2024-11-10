@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "992770373185",
+    "firebase_url": "https://n-club-9729d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "n-club-9729d",
+    "storage_bucket": "n-club-9729d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992770373185:android:1762ac86596dafeff9f8c0",
+        "android_client_info": {
+          "package_name": "com.example.map"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUmjGzh3rFCyc3fKu6-HmmxCj-s-JEG7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992770373185:android:5e84dd098934c23ff9f8c0",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUmjGzh3rFCyc3fKu6-HmmxCj-s-JEG7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
